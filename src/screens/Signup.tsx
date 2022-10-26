@@ -114,7 +114,10 @@ export function SignupScreen({ navigation }: any) {
             })
               .then((user) => {
                 if (user) {
-                  navigation.push("Home");
+                  nav.reset({
+                    index: 0,
+                    routes: [{ name: "Home" }],
+                  });
                   toast.show({
                     render: () => {
                       return (

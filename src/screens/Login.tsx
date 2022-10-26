@@ -87,7 +87,10 @@ export function LoginScreen({ navigation }: any) {
               password: userDetails.password,
             }).then((user) => {
               if (user) {
-                navigation.push("Home");
+                navigation.reset({
+                  index: 0,
+                  routes: [{ name: "Home" }],
+                });
                 toast.show({
                   render: () => {
                     return (
