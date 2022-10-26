@@ -6,11 +6,28 @@ import {
   Text,
   Flex,
   Button,
+  useToast,
+  Box,
 } from "native-base";
-import React from "react";
+import React, { useState } from "react";
 import { Layout } from "../components";
+import { signUp } from "../firebase";
 
 export function SignupScreen({ navigation }: any) {
+  const [userDetails, setUserDetails] = React.useState({
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+
+  const toast = useToast();
+
+  const updateProperty = (key: string) => (value: string) => {
+    setUserDetails((prev) => ({ ...prev, [key]: value }));
+  };
+
+  const [loading, setLoading] = useState<boolean>(false);
+
   return (
     <Layout title="Signup">
       <FormControl isRequired mb={4}>
@@ -18,7 +35,13 @@ export function SignupScreen({ navigation }: any) {
           <FormControl.Label>
             <Text fontFamily="poppins">Email</Text>
           </FormControl.Label>
-          <Input type="text" fontFamily="poppins" placeholder="email" />
+          <Input
+            type="text"
+            value={userDetails.email}
+            fontFamily="poppins"
+            onChangeText={updateProperty("email")}
+            placeholder="email"
+          />
 
           <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>
             Your email is required to signup.
@@ -31,7 +54,13 @@ export function SignupScreen({ navigation }: any) {
           <FormControl.Label>
             <Text fontFamily="poppins">Password</Text>
           </FormControl.Label>
-          <Input type="password" fontFamily="poppins" placeholder="password" />
+          <Input
+            type="password"
+            value={userDetails.password}
+            onChangeText={updateProperty("password")}
+            fontFamily="poppins"
+            placeholder="password"
+          />
 
           <FormControl.HelperText>
             Must be atleast 6 characters.
@@ -49,8 +78,10 @@ export function SignupScreen({ navigation }: any) {
           </FormControl.Label>
           <Input
             type="password"
+            value={userDetails.confirmPassword}
             fontFamily="poppins"
             placeholder="confirm password"
+            onChangeText={updateProperty("confirmPassword")}
           />
 
           <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>
@@ -70,7 +101,47 @@ export function SignupScreen({ navigation }: any) {
           <Text fontFamily="poppins">Or log in instead</Text>
         </Button>
 
-        <Button w="100%" colorScheme="blue" variant="solid">
+        <Button
+          onPress={() => {
+            setLoading(true);
+
+            signUp({
+              email: userDetails.email,
+              password: userDetails.password,
+            }).then((user) => {
+              if (user) {
+                navigation.push("Home");
+                toast.show({
+                  render: () => {
+                    return (
+                      <Box bg="emerald.500" px="2" py="1" rounded="sm" mb={5}>
+                        Account created successfully!
+                      </Box>
+                    );
+                  },
+                });
+              } else {
+                toast.show({
+                  render: () => {
+                    return (
+                      <Box bg="red.200" px="2" py="1" rounded="sm" mb={5}>
+                        An error occured while making your account
+                      </Box>
+                    );
+                  },
+                });
+              }
+            });
+          }}
+          w="100%"
+          colorScheme="blue"
+          isLoading={loading}
+          variant="solid"
+          isDisabled={
+            userDetails.password.length < 6 ||
+            userDetails.confirmPassword !== userDetails.password
+          }
+        >
           <Text fontFamily="poppins">Signup</Text>
         </Button>
       </Flex>

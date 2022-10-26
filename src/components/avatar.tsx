@@ -1,7 +1,15 @@
 import { useNavigation } from "@react-navigation/native";
-import { Menu, Pressable, Avatar as NativeBaseAvatar } from "native-base";
+import {
+  Menu,
+  Pressable,
+  Avatar as NativeBaseAvatar,
+  Button,
+  useToast,
+  Box,
+} from "native-base";
 import React, { useMemo } from "react";
-import { MuteButton } from "./mute-button";
+import { onAuthStateChanged, User, signOut } from "firebase/auth";
+import { auth } from "../firebase";
 
 interface AvatarDropDownOptionsType {
   name: string;
@@ -10,12 +18,21 @@ interface AvatarDropDownOptionsType {
 }
 
 interface AvatarProps {
-  loggedIn: boolean;
-  setLoggedIn: (loggedIn: boolean) => void;
+  user: User | undefined;
+  setUser: (user: User | undefined) => void;
 }
 
-export const Avatar: React.FC<AvatarProps> = ({ loggedIn, setLoggedIn }) => {
+export const Avatar: React.FC<AvatarProps> = ({ setUser, user }) => {
   const nav = useNavigation();
+  const toast = useToast();
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      setUser(user);
+    } else {
+      setUser(undefined);
+    }
+  });
 
   const AvatarDropDownOptions: AvatarDropDownOptionsType[] = useMemo(
     () => [
@@ -33,27 +50,55 @@ export const Avatar: React.FC<AvatarProps> = ({ loggedIn, setLoggedIn }) => {
       },
       {
         name: "Logout",
-        onPress: () => setLoggedIn(false),
+        onPress: () => {
+          signOut(auth)
+            .then(() => {
+              toast.show({
+                render: () => {
+                  return (
+                    <Box bg="emerald.500" px="2" py="1" rounded="sm" mb={5}>
+                      Signed out successfully!
+                    </Box>
+                  );
+                },
+              });
+            })
+            .catch(() => {
+              toast.show({
+                render: () => {
+                  return (
+                    <Box bg="red.300" px="2" py="1" rounded="sm" mb={5}>
+                      An error occurred while signing out
+                    </Box>
+                  );
+                },
+              });
+            });
+        },
       },
     ],
-    [setLoggedIn]
+    [setUser]
   );
 
-  if (!loggedIn) {
+  if (!user) {
     return (
-      <MuteButton
+      <Button
         _text={{ fontSize: "xs", color: "white", fontFamily: "body", px: 0 }}
         size="xs"
         minW="0"
         minH="0"
         px={4}
-        title="Signup"
         onPress={() => {
-          nav.push("Signup");
+          nav.navigate("Signup");
         }}
-      />
+        colorScheme="coolGray"
+        variant="outline"
+      >
+        Signup
+      </Button>
     );
   }
+  console.log(`https://avatars.dicebear.com/api/adventurer/${user.email}.svg`);
   return (
     <Menu
       w="190px"
@@ -62,9 +107,11 @@ export const Avatar: React.FC<AvatarProps> = ({ loggedIn, setLoggedIn }) => {
           <Pressable accessibilityLabel="More options menu" {...triggerProps}>
             <NativeBaseAvatar
               source={{
-                uri: "https://images.unsplash.com/photo-1522529599102-193c0d76b5b6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80",
+                uri: `https://avatars.dicebear.com/api/big-smile/${user.email}.png`,
               }}
               size="35px"
+              display="flex"
+              bg="mute"
             />
           </Pressable>
         );
