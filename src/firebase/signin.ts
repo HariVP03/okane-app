@@ -1,4 +1,7 @@
-import { signInWithEmailAndPassword } from "firebase/auth";
+import {
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+} from "firebase/auth";
 import { auth } from ".";
 
 interface SignInProps {
@@ -6,13 +9,10 @@ interface SignInProps {
   password: string;
 }
 
-export const signIn = ({ email, password }: SignInProps) => {
-  signInWithEmailAndPassword(auth, email, password)
-    .then((result) => {
-      const user = result;
-      console.log({ user });
-    })
-    .catch((error) => {
-      console.log({ error });
-    });
+export const signIn = async ({ email, password }: SignInProps) => {
+  return signInWithEmailAndPassword(auth, email, password);
+};
+
+export const signUp = async ({ email, password }: SignInProps) => {
+  return createUserWithEmailAndPassword(auth, email, password);
 };
