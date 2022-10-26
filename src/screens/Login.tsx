@@ -76,6 +76,7 @@ export function LoginScreen({ navigation }: any) {
             userDetails.password.length < 6
           }
           w="100%"
+          isLoading={loading}
           colorScheme="blue"
           variant="solid"
           onPress={() => {
@@ -100,7 +101,7 @@ export function LoginScreen({ navigation }: any) {
                 toast.show({
                   render: () => {
                     return (
-                      <Box bg="red.200" px="2" py="1" rounded="sm" mb={5}>
+                      <Box bg="danger.500" px="2" py="1" rounded="sm" mb={5}>
                         An error occured while logging into your account
                       </Box>
                     );

@@ -1,3 +1,4 @@
+import { useNavigation } from "@react-navigation/native";
 import {
   FormControl,
   Input,
@@ -8,6 +9,7 @@ import {
   Button,
   useToast,
   Box,
+  Pressable,
 } from "native-base";
 import React, { useState } from "react";
 import { Layout } from "../components";
@@ -21,6 +23,7 @@ export function SignupScreen({ navigation }: any) {
   });
 
   const toast = useToast();
+  const nav = useNavigation();
 
   const updateProperty = (key: string) => (value: string) => {
     setUserDetails((prev) => ({ ...prev, [key]: value }));
@@ -108,30 +111,53 @@ export function SignupScreen({ navigation }: any) {
             signUp({
               email: userDetails.email,
               password: userDetails.password,
-            }).then((user) => {
-              if (user) {
-                navigation.push("Home");
-                toast.show({
-                  render: () => {
-                    return (
-                      <Box bg="emerald.500" px="2" py="1" rounded="sm" mb={5}>
-                        Account created successfully!
-                      </Box>
-                    );
-                  },
-                });
-              } else {
-                toast.show({
-                  render: () => {
-                    return (
-                      <Box bg="red.200" px="2" py="1" rounded="sm" mb={5}>
-                        An error occured while making your account
-                      </Box>
-                    );
-                  },
-                });
-              }
-            });
+            })
+              .then((user) => {
+                if (user) {
+                  navigation.push("Home");
+                  toast.show({
+                    render: () => {
+                      return (
+                        <Box bg="emerald.500" px="2" py="1" rounded="sm" mb={5}>
+                          Account created successfully!
+                        </Box>
+                      );
+                    },
+                  });
+                } else {
+                  toast.show({
+                    render: () => {
+                      return (
+                        <Box bg="danger.500" px="2" py="1" rounded="sm" mb={5}>
+                          An error occured while making your account
+                        </Box>
+                      );
+                    },
+                  });
+                }
+              })
+              .catch((err) => {
+                if (err.code === "auth/email-already-in-use") {
+                  setLoading(false);
+                  toast.show({
+                    render: () => {
+                      return (
+                        <Pressable onPress={() => nav.navigate("Login")}>
+                          <Box
+                            bg="danger.500"
+                            px="2"
+                            py="1"
+                            rounded="sm"
+                            mb={5}
+                          >
+                            Email already in use
+                          </Box>
+                        </Pressable>
+                      );
+                    },
+                  });
+                }
+              });
           }}
           w="100%"
           colorScheme="blue"
