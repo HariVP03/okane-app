@@ -1,5 +1,6 @@
-import { Avatar, Flex, Text } from "native-base";
+import { Flex, Text } from "native-base";
 import React from "react";
+import { Avatar } from "./avatar";
 
 interface LayoutProps {
   children: any;
@@ -19,14 +20,9 @@ export const Layout: React.FC<LayoutProps> = ({ children, title }) => {
         <Text fontFamily="heading" fontSize="3xl">
           {title}
         </Text>
-        <Avatar
-          source={{
-            uri: "https://images.unsplash.com/photo-1522529599102-193c0d76b5b6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80",
-          }}
-          size="35px"
-        />
+        <Avatar />
       </Flex>
-      {children}
+      <Flex flex={1}>{children}</Flex>
     </Flex>
   );
 };
