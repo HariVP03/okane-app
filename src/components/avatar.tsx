@@ -1,4 +1,4 @@
-import { useNavigation } from "@react-navigation/core";
+import { useNavigation } from "@react-navigation/native";
 import { Menu, Pressable, Avatar as NativeBaseAvatar } from "native-base";
 import React, { useMemo } from "react";
 import { MuteButton } from "./mute-button";
@@ -15,7 +15,7 @@ interface AvatarProps {
 }
 
 export const Avatar: React.FC<AvatarProps> = ({ loggedIn, setLoggedIn }) => {
-  const route = useNavigation();
+  const nav = useNavigation();
 
   const AvatarDropDownOptions: AvatarDropDownOptionsType[] = useMemo(
     () => [
@@ -49,7 +49,7 @@ export const Avatar: React.FC<AvatarProps> = ({ loggedIn, setLoggedIn }) => {
         px={4}
         title="Signup"
         onPress={() => {
-          route.navigate("Signup");
+          nav.push("Signup");
         }}
       />
     );

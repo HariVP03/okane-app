@@ -1,12 +1,10 @@
-import { ArrowDownIcon, ArrowUpIcon, Flex } from "native-base";
 import React from "react";
 import { Layout } from "../components";
-import { MuteButton } from "../components";
 
-export function HomeScreen({ navigation: { navigate } }: any) {
+export function SignupScreen({ navigation: { navigate } }: any) {
   return (
-    <Layout title="Home" showAvatar>
-      <Flex
+    <Layout title="Signup">
+      {/* <Flex
         alignItems="center"
         justifyContent="space-between"
         flexDir="row"
@@ -22,7 +20,7 @@ export function HomeScreen({ navigation: { navigate } }: any) {
           title={"Receive"}
           borderRadius="lg"
         />
-      </Flex>
+      </Flex> */}
     </Layout>
   );
 }

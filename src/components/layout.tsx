@@ -5,9 +5,14 @@ import { Avatar } from "./avatar";
 interface LayoutProps {
   children: any;
   title: string;
+  showAvatar?: boolean;
 }
 
-export const Layout: React.FC<LayoutProps> = ({ children, title }) => {
+export const Layout: React.FC<LayoutProps> = ({
+  children,
+  title,
+  showAvatar,
+}) => {
   const [loggedIn, setLoggedIn] = React.useState(false);
 
   return (
@@ -22,7 +27,7 @@ export const Layout: React.FC<LayoutProps> = ({ children, title }) => {
         <Text fontFamily="heading" fontSize="3xl">
           {title}
         </Text>
-        <Avatar setLoggedIn={setLoggedIn} loggedIn={loggedIn} />
+        {showAvatar && <Avatar setLoggedIn={setLoggedIn} loggedIn={loggedIn} />}
       </Flex>
       <Flex flex={1}>{children}</Flex>
     </Flex>
