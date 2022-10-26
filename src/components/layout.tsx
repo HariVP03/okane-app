@@ -9,7 +9,7 @@ interface LayoutProps {
 
 export const Layout: React.FC<LayoutProps> = ({ children, title }) => {
   return (
-    <Flex px="32px" pt="45px" bg="#151515" flex={1}>
+    <Flex px="32px" pt="45px" bg="bg" flex={1}>
       <Flex
         w="100%"
         flexDir="row"

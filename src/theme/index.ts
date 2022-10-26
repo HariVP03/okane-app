@@ -14,4 +14,8 @@ export const theme = extendTheme({
       fontFamily: "heading",
     },
   },
+  colors: {
+    bg: "#151515",
+    mute: "#373737",
+  },
 });
