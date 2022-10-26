@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "748957507253",
+    "project_id": "okane-app-c520b",
+    "storage_bucket": "okane-app-c520b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:748957507253:android:961e7be247fba8e99028fc",
+        "android_client_info": {
+          "package_name": "com.company.okane"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "748957507253-m61rdpqhr9ek9tk3lold9n3bf5mgigih.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAq7TdhFI7QE-CfU81z3zLDG_chFP4CwtU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "748957507253-m61rdpqhr9ek9tk3lold9n3bf5mgigih.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

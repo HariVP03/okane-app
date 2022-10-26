@@ -1,5 +1,6 @@
+import { useNavigation } from "@react-navigation/core";
 import { Menu, Pressable, Avatar as NativeBaseAvatar } from "native-base";
-import React from "react";
+import React, { useMemo } from "react";
 import { MuteButton } from "./mute-button";
 
 interface AvatarDropDownOptionsType {
@@ -14,24 +15,29 @@ interface AvatarProps {
 }
 
 export const Avatar: React.FC<AvatarProps> = ({ loggedIn, setLoggedIn }) => {
-  const AvatarDropDownOptions: AvatarDropDownOptionsType[] = [
-    {
-      name: "Profile",
-      onPress: () => {},
-    },
-    {
-      name: "Your transactions",
-      onPress: () => {},
-    },
-    {
-      name: "Settings",
-      onPress: () => {},
-    },
-    {
-      name: "Logout",
-      onPress: () => setLoggedIn(false),
-    },
-  ];
+  const route = useNavigation();
+
+  const AvatarDropDownOptions: AvatarDropDownOptionsType[] = useMemo(
+    () => [
+      {
+        name: "Profile",
+        onPress: () => {},
+      },
+      {
+        name: "Your transactions",
+        onPress: () => {},
+      },
+      {
+        name: "Settings",
+        onPress: () => {},
+      },
+      {
+        name: "Logout",
+        onPress: () => setLoggedIn(false),
+      },
+    ],
+    [setLoggedIn]
+  );
 
   if (!loggedIn) {
     return (
@@ -41,8 +47,10 @@ export const Avatar: React.FC<AvatarProps> = ({ loggedIn, setLoggedIn }) => {
         minW="0"
         minH="0"
         px={4}
-        title="Login / Signup"
-        onPress={() => setLoggedIn(true)}
+        title="Signup"
+        onPress={() => {
+          route.navigate("Signup");
+        }}
       />
     );
   }
