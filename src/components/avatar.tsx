@@ -1,5 +1,6 @@
 import { Menu, Pressable, Avatar as NativeBaseAvatar } from "native-base";
 import React from "react";
+import { MuteButton } from "./mute-button";
 
 interface AvatarDropDownOptionsType {
   name: string;
@@ -7,26 +8,44 @@ interface AvatarDropDownOptionsType {
   isDisabled?: boolean;
 }
 
-const AvatarDropDownOptions: AvatarDropDownOptionsType[] = [
-  {
-    name: "Profile",
-    onPress: () => {},
-  },
-  {
-    name: "Your transactions",
-    onPress: () => {},
-  },
-  {
-    name: "Settings",
-    onPress: () => {},
-  },
-  {
-    name: "Logout",
-    onPress: () => {},
-  },
-];
+interface AvatarProps {
+  loggedIn: boolean;
+  setLoggedIn: (loggedIn: boolean) => void;
+}
 
-export const Avatar = () => {
+export const Avatar: React.FC<AvatarProps> = ({ loggedIn, setLoggedIn }) => {
+  const AvatarDropDownOptions: AvatarDropDownOptionsType[] = [
+    {
+      name: "Profile",
+      onPress: () => {},
+    },
+    {
+      name: "Your transactions",
+      onPress: () => {},
+    },
+    {
+      name: "Settings",
+      onPress: () => {},
+    },
+    {
+      name: "Logout",
+      onPress: () => setLoggedIn(false),
+    },
+  ];
+
+  if (!loggedIn) {
+    return (
+      <MuteButton
+        _text={{ fontSize: "xs", color: "white", fontFamily: "body", px: 0 }}
+        size="xs"
+        minW="0"
+        minH="0"
+        px={4}
+        title="Login / Signup"
+        onPress={() => setLoggedIn(true)}
+      />
+    );
+  }
   return (
     <Menu
       w="190px"

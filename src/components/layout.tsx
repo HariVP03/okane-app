@@ -8,6 +8,8 @@ interface LayoutProps {
 }
 
 export const Layout: React.FC<LayoutProps> = ({ children, title }) => {
+  const [loggedIn, setLoggedIn] = React.useState(false);
+
   return (
     <Flex px="32px" pt="45px" bg="bg" flex={1}>
       <Flex
@@ -20,7 +22,7 @@ export const Layout: React.FC<LayoutProps> = ({ children, title }) => {
         <Text fontFamily="heading" fontSize="3xl">
           {title}
         </Text>
-        <Avatar />
+        <Avatar setLoggedIn={setLoggedIn} loggedIn={loggedIn} />
       </Flex>
       <Flex flex={1}>{children}</Flex>
     </Flex>

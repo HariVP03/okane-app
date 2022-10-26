@@ -1,20 +1,23 @@
 import { ArrowDownIcon, ArrowUpIcon, Flex } from "native-base";
 import React from "react";
 import { Layout } from "../components";
-import { ButtonWithIcon } from "../components/button-with-icon";
+import { MuteButton } from "../components";
 
 export function HomeScreen({ navigation: { navigate } }: any) {
   return (
     <Layout title="Home">
-      <Flex justifyContent="space-between" flexDir="row" flex={1}>
-        <ButtonWithIcon
-          fontFamily="poppins-bold"
+      <Flex
+        alignItems="center"
+        justifyContent="space-between"
+        flexDir="row"
+        flex={1}
+      >
+        <MuteButton
           leftIcon={<ArrowUpIcon />}
           title={"Send"}
           borderRadius="lg"
         />
-        <ButtonWithIcon
-          fontFamily="poppins-bold"
+        <MuteButton
           leftIcon={<ArrowDownIcon />}
           title={"Receive"}
           borderRadius="lg"

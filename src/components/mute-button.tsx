@@ -2,14 +2,11 @@ import { Button } from "native-base";
 import { IButtonProps } from "native-base/lib/typescript/components/primitives/Button/types";
 import React from "react";
 
-interface ButtonWithIconProps extends Partial<IButtonProps> {
+interface MuteButtonProps extends Partial<IButtonProps> {
   title: string;
 }
 
-export const ButtonWithIcon: React.FC<ButtonWithIconProps> = ({
-  title,
-  ...rest
-}) => {
+export const MuteButton: React.FC<MuteButtonProps> = ({ title, ...rest }) => {
   return (
     <Button
       colorScheme="gray"
