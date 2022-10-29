@@ -15,7 +15,7 @@ import React, { useState } from "react";
 import { Layout } from "../components";
 import { signUp } from "../firebase";
 
-export function SignupScreen({ navigation }: any) {
+export function SignupScreen() {
   const [userDetails, setUserDetails] = React.useState({
     email: "",
     password: "",
@@ -95,7 +95,7 @@ export function SignupScreen({ navigation }: any) {
 
       <Flex mt={8}>
         <Button
-          onPress={() => navigation.push("Login")}
+          onPress={() => nav.navigate("Login")}
           mb={4}
           w="100%"
           colorScheme="blue"
@@ -109,58 +109,9 @@ export function SignupScreen({ navigation }: any) {
             setLoading(true);
 
             signUp({
-              email: userDetails.email,
-              password: userDetails.password,
-            })
-              .then((user) => {
-                if (user) {
-                  nav.reset({
-                    index: 0,
-                    routes: [{ name: "Home" }],
-                  });
-                  toast.show({
-                    render: () => {
-                      return (
-                        <Box bg="emerald.500" px="2" py="1" rounded="sm" mb={5}>
-                          Account created successfully!
-                        </Box>
-                      );
-                    },
-                  });
-                } else {
-                  toast.show({
-                    render: () => {
-                      return (
-                        <Box bg="danger.500" px="2" py="1" rounded="sm" mb={5}>
-                          An error occured while making your account
-                        </Box>
-                      );
-                    },
-                  });
-                }
-              })
-              .catch((err) => {
-                if (err.code === "auth/email-already-in-use") {
-                  setLoading(false);
-                  toast.show({
-                    render: () => {
-                      return (
-                        <Pressable onPress={() => nav.navigate("Login")}>
-                          <Box
-                            bg="danger.500"
-                            px="2"
-                            py="1"
-                            rounded="sm"
-                            mb={5}
-                          >
-                            Email already in use
-                          </Box>
-                        </Pressable>
-                      );
-                    },
-                  });
-                }
-              });
+              params: userDetails,
+            });
+            // .then(() => nav.reset({ index: 0, routes: [{ name: "Home" }] }));
           }}
           w="100%"
           colorScheme="blue"

@@ -1,3 +1,4 @@
+import { useNavigation } from "@react-navigation/native";
 import {
   FormControl,
   Input,
@@ -12,13 +13,13 @@ import React, { useState } from "react";
 import { Layout } from "../components";
 import { signIn } from "../firebase";
 
-export function LoginScreen({ navigation }: any) {
+export function LoginScreen() {
   const [userDetails, setUserDetails] = React.useState({
     email: "",
     password: "",
   });
 
-  const toast = useToast();
+  const nav = useNavigation();
 
   const updateProperty = (key: string) => (value: string) => {
     setUserDetails((prev) => ({ ...prev, [key]: value }));
@@ -60,7 +61,7 @@ export function LoginScreen({ navigation }: any) {
 
       <Flex mt={8}>
         <Button
-          onPress={() => navigation.push("Signup")}
+          onPress={() => nav.navigate("Signup")}
           mb={4}
           w="100%"
           colorScheme="blue"
@@ -82,36 +83,10 @@ export function LoginScreen({ navigation }: any) {
           onPress={() => {
             setLoading(true);
 
-            signIn({
-              email: userDetails.email,
-              password: userDetails.password,
-            }).then((user) => {
-              if (user) {
-                navigation.reset({
-                  index: 0,
-                  routes: [{ name: "Home" }],
-                });
-                toast.show({
-                  render: () => {
-                    return (
-                      <Box bg="emerald.500" px="2" py="1" rounded="sm" mb={5}>
-                        Logged into your account!
-                      </Box>
-                    );
-                  },
-                });
-              } else {
-                toast.show({
-                  render: () => {
-                    return (
-                      <Box bg="danger.500" px="2" py="1" rounded="sm" mb={5}>
-                        An error occured while logging into your account
-                      </Box>
-                    );
-                  },
-                });
-              }
-            });
+            signIn({ params: userDetails });
+            // .then(() =>
+            //   nav.reset({ index: 0, routes: [{ name: "Home" }] })
+            // );
           }}
         >
           <Text fontFamily="poppins">Login</Text>

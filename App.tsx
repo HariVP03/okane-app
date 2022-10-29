@@ -1,3 +1,4 @@
+import { NavigationContainer } from "@react-navigation/native";
 import { NativeBaseProvider } from "native-base";
 import React from "react";
 import { useInitApp } from "./src/hooks";
@@ -12,8 +13,10 @@ export default function App() {
   if (!fontsLoaded) return null;
 
   return (
-    <NativeBaseProvider theme={theme}>
-      <Routes />
-    </NativeBaseProvider>
+    <NavigationContainer>
+      <NativeBaseProvider theme={theme}>
+        <Routes />
+      </NativeBaseProvider>
+    </NavigationContainer>
   );
 }

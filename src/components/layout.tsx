@@ -1,7 +1,7 @@
 import { Flex, Text } from "native-base";
 import React from "react";
+import { useAuthStateChange } from "../hooks/useAuthStateChange";
 import { Avatar } from "./avatar";
-import { User } from "firebase/auth";
 
 interface LayoutProps {
   children: any;
@@ -14,7 +14,7 @@ export const Layout: React.FC<LayoutProps> = ({
   title,
   showAvatar,
 }) => {
-  const [user, setUser] = React.useState<User | undefined>();
+  useAuthStateChange();
 
   return (
     <Flex px="32px" pt="45px" bg="bg" flex={1}>
@@ -28,7 +28,7 @@ export const Layout: React.FC<LayoutProps> = ({
         <Text fontFamily="heading" fontSize="3xl">
           {title}
         </Text>
-        {showAvatar && <Avatar setUser={setUser} user={user} />}
+        {showAvatar && <Avatar />}
       </Flex>
       <Flex flex={1}>{children}</Flex>
     </Flex>

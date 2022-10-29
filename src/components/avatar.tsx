@@ -6,10 +6,13 @@ import {
   Button,
   useToast,
   Box,
+  Toast,
 } from "native-base";
 import React, { useMemo } from "react";
-import { onAuthStateChanged, User, signOut } from "firebase/auth";
-import { auth } from "../firebase";
+import { signOut } from "firebase/auth";
+import { auth, logOut } from "../firebase";
+import { useAtom } from "jotai";
+import { userAtom } from "../atoms";
 
 interface AvatarDropDownOptionsType {
   name: string;
@@ -17,22 +20,11 @@ interface AvatarDropDownOptionsType {
   isDisabled?: boolean;
 }
 
-interface AvatarProps {
-  user: User | undefined;
-  setUser: (user: User | undefined) => void;
-}
+interface AvatarProps {}
 
-export const Avatar: React.FC<AvatarProps> = ({ setUser, user }) => {
+export const Avatar: React.FC<AvatarProps> = () => {
   const nav = useNavigation();
-  const toast = useToast();
-
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      setUser(user);
-    } else {
-      setUser(undefined);
-    }
-  });
+  const [user] = useAtom(userAtom);
 
   const AvatarDropDownOptions = useMemo<AvatarDropDownOptionsType[]>(
     () => [
@@ -54,33 +46,11 @@ export const Avatar: React.FC<AvatarProps> = ({ setUser, user }) => {
       {
         name: "Logout",
         onPress: () => {
-          signOut(auth)
-            .then(() => {
-              toast.show({
-                render: () => {
-                  return (
-                    <Box bg="emerald.500" px="2" py="1" rounded="sm" mb={5}>
-                      Signed out successfully!
-                    </Box>
-                  );
-                },
-              });
-            })
-            .catch(() => {
-              toast.show({
-                render: () => {
-                  return (
-                    <Box bg="red.300" px="2" py="1" rounded="sm" mb={5}>
-                      An error occurred while signing out
-                    </Box>
-                  );
-                },
-              });
-            });
+          logOut();
         },
       },
     ],
-    [setUser]
+    []
   );
 
   if (!user) {
@@ -101,7 +71,7 @@ export const Avatar: React.FC<AvatarProps> = ({ setUser, user }) => {
       </Button>
     );
   }
-  console.log(`https://avatars.dicebear.com/api/adventurer/${user.email}.svg`);
+
   return (
     <Menu
       w="190px"
