@@ -34,19 +34,22 @@ export const Avatar: React.FC<AvatarProps> = ({ setUser, user }) => {
     }
   });
 
-  const AvatarDropDownOptions: AvatarDropDownOptionsType[] = useMemo(
+  const AvatarDropDownOptions = useMemo<AvatarDropDownOptionsType[]>(
     () => [
       {
         name: "Profile",
         onPress: () => {},
+        isDisabled: true,
       },
       {
         name: "Your transactions",
         onPress: () => {},
+        isDisabled: true,
       },
       {
         name: "Settings",
         onPress: () => {},
+        isDisabled: true,
       },
       {
         name: "Logout",
