@@ -22,8 +22,6 @@ export function PayScreen({
       const gpay = upiId.replace("upi:/", UPI_PREFIX.GOOGLEPAY);
       const paytm = upiId.replace("upi:/", UPI_PREFIX.PAYTM);
 
-      console.log(params.params, upiId);
-
       if (!(await Linking.canOpenURL(gpay))) {
         await Linking.openURL(paytm);
       } else {
@@ -41,11 +39,25 @@ export function PayScreen({
           px={8}
           mb={8}
           borderWidth={1}
+          maxW="100%"
           bg="mute"
           borderColor="teal.200"
         >
-          <Text fontSize="md" fontFamily="body" color="white">
-            {params.params.pn} ( {params.params.pa} )
+          <Text
+            textAlign="center"
+            fontSize="md"
+            fontFamily="poppins"
+            color="white"
+          >
+            {params.params.pn}
+          </Text>
+          <Text
+            textAlign="center"
+            fontSize="md"
+            fontFamily="poppins"
+            color="white"
+          >
+            {params.params.pa}
           </Text>
         </Flex>
         <Input
@@ -75,7 +87,7 @@ export function PayScreen({
             w: 300,
             textAlign: "center",
           }}
-          colorScheme="blue"
+          colorScheme="teal"
           w={250}
           onPress={onPay}
           h={65}

@@ -11,9 +11,11 @@ export const MuteButton: React.FC<MuteButtonProps> = ({ title, ...rest }) => {
     <Button
       colorScheme="gray"
       bg="mute"
-      _text={{ color: "white", fontSize: "lg" }}
+      borderWidth={1}
+      borderColor="teal.400"
+      _text={{ color: "white", fontSize: "xl", fontFamily: "poppins" }}
       variant="ghost"
-      maxH="50px"
+      h="100px"
       maxW="150px"
       _icon={{ size: "18px", color: "white" }}
       px={8}

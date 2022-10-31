@@ -79,7 +79,7 @@ export function LoginScreen() {
           }
           w="100%"
           isLoading={loading}
-          colorScheme="blue"
+          colorScheme="teal"
           variant="solid"
           onPress={() => {
             setLoading(true);

@@ -61,6 +61,8 @@ export const Avatar: React.FC<AvatarProps> = () => {
         minW="0"
         minH="0"
         px={4}
+        borderWidth={1}
+        borderColor="teal.400"
         onPress={() => {
           nav.navigate("Signup");
         }}

@@ -125,7 +125,7 @@ export function SignupScreen() {
             });
           }}
           w="100%"
-          colorScheme="blue"
+          colorScheme="teal"
           isLoading={loading}
           variant="solid"
           isDisabled={
