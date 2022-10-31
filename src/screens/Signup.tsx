@@ -10,6 +10,7 @@ import {
   useToast,
   Box,
   Pressable,
+  Toast,
 } from "native-base";
 import React, { useState } from "react";
 import { Layout } from "../components";
@@ -110,8 +111,18 @@ export function SignupScreen() {
 
             signUp({
               params: userDetails,
+              onSuccess() {
+                setLoading(false);
+                nav.navigate("Home");
+              },
+              onError() {
+                setLoading(false);
+                Toast.show({
+                  title: "An error occurred. Please try again.",
+                  bg: "danger.600",
+                });
+              },
             });
-            // .then(() => nav.reset({ index: 0, routes: [{ name: "Home" }] }));
           }}
           w="100%"
           colorScheme="blue"

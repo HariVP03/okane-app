@@ -3,6 +3,7 @@ import {
   createUserWithEmailAndPassword,
   Auth,
   signOut,
+  UserCredential,
 } from "firebase/auth";
 import { Toast } from "native-base";
 import { auth } from ".";
@@ -12,39 +13,59 @@ interface AuthProps {
   password: string;
 }
 
-interface OperationProps<T> {
+interface BaseOperationParams<T> {
   params: T;
-  onSuccess?: () => void;
-  onError?: (error: Error) => void;
+  onSuccess?: (response: UserCredential) => void;
+  onError?: (error: any) => void;
+}
+
+interface SignupProps<T> extends BaseOperationParams<T> {}
+
+interface SigninProps<T> extends BaseOperationParams<T> {
+  onIncorrectPassword?: () => void;
 }
 
 export const signIn = async ({
   params: { email, password },
   onError,
   onSuccess,
-}: OperationProps<AuthProps>) => {
-  return signInWithEmailAndPassword(auth, email, password).then(() =>
-    Toast.show({
-      title: "Signed in successfully",
-      bg: "success.600",
+  onIncorrectPassword,
+}: SigninProps<AuthProps>) => {
+  return signInWithEmailAndPassword(auth, email, password)
+    .then((res) => {
+      Toast.show({
+        title: "Signed in successfully",
+        bg: "success.600",
+      });
+      console.log({ res });
+      onSuccess?.(res);
     })
-  );
+    .catch((error) => {
+      onError?.(error);
+
+      switch (error.code) {
+        case "auth/wrong-password":
+          onIncorrectPassword?.();
+      }
+    });
 };
 
 export const signUp = async ({
   params: { email, password },
   onError,
   onSuccess,
-}: OperationProps<AuthProps>) => {
+}: SignupProps<AuthProps>) => {
   return createUserWithEmailAndPassword(auth, email, password)
     .then((res) => {
       Toast.show({
         title: "Signed in successfully",
         bg: "success.600",
       });
+
+      onSuccess?.(res);
     })
     .catch((err) => {
-      console.log(err);
+      onError?.(err);
     });
 };
 

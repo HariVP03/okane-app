@@ -8,6 +8,7 @@ import {
   Button,
   useToast,
   Box,
+  Toast,
 } from "native-base";
 import React, { useState } from "react";
 import { Layout } from "../components";
@@ -83,10 +84,27 @@ export function LoginScreen() {
           onPress={() => {
             setLoading(true);
 
-            signIn({ params: userDetails });
-            // .then(() =>
-            //   nav.reset({ index: 0, routes: [{ name: "Home" }] })
-            // );
+            signIn({
+              params: userDetails,
+              onIncorrectPassword() {
+                setLoading(false);
+                Toast.show({
+                  title: "Incorrect password. Please try again.",
+                  bg: "danger.600",
+                });
+              },
+              onSuccess() {
+                setLoading(false);
+                nav.navigate("Home");
+              },
+              onError() {
+                setLoading(false);
+                Toast.show({
+                  title: "An error occurred. Please try again.",
+                  bg: "danger.600",
+                });
+              },
+            });
           }}
         >
           <Text fontFamily="poppins">Login</Text>
