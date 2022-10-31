@@ -1,5 +1,8 @@
 import { RouteProp, ParamListBase } from "@react-navigation/native";
-import { NativeStackNavigationOptions } from "@react-navigation/native-stack";
+import {
+  NativeStackNavigationOptions,
+  NativeStackScreenProps,
+} from "@react-navigation/native-stack";
 
 export interface BaseRouteParams {}
 
